@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { LoadingController } from '@ionic/angular';
+import { ValidacionesService } from 'src/app/services/validaciones.service';
+
 
 @Component({
   selector: 'app-administrador',
@@ -10,13 +12,8 @@ import { LoadingController } from '@ionic/angular';
 })
 export class AdministradorPage implements OnInit {
 
-  datos: any[] = [];
-  KEY_PERSONAS = 'personas';
-  dato = {
-    id: '',
-    rut: '',
-    nombre: ''
-  };
+  edadMinima: number = 17;
+
   tipoUsuario: any[] = [{
     tipo_usu: 'alumno'
   },
@@ -37,73 +34,90 @@ export class AdministradorPage implements OnInit {
     tipo_usuario: new FormControl('this.tipoUsuario', [])
   });
 
+
+  verificar_password: string;
   //VAMOS A CREAR UNA VARIABLE PARA OBTENER LA LISTA DE USUARIOS DEL SERVICIO DE USUARIOS:
   usuarios: any[] = [];
-  repetir_password: string;
-  storage: any;
+  KEY_USUARIOS = 'usuarios';
 
-  constructor(private usuarioService: UsuarioService, private loading: LoadingController) { }
+
+  constructor(private usuarioService: UsuarioService, private validacionesService: ValidacionesService, private loadingController: LoadingController) { }
 
   async ngOnInit() {
     await this.cargarDatos();
   }
 
+  //Métodos para poder usar storage
   async cargarDatos() {
-    this.datos = await this.storage.getDatos(this.KEY_PERSONAS);
+    this.usuarios = await this.usuarioService.getUsuarios(this.KEY_USUARIOS);
   }
 
 
   //método del formulario
   async registrar() {
-    this.dato.id = '';
-    var resp = await this.storage.agregar(this.KEY_PERSONAS, this.dato);
+    this.usuario.value.rut = '';
+    //Verificar password
+    if (this.usuario.controls.password.value != this.verificar_password) {
+      alert('Contraseñas no coinciden!');
+      return;
+    }
+
+    //Verificar rut
+    if (!this.validacionesService.validarRut(this.usuario.controls.rut.value)) {
+      alert('Rut inválido.')
+      return;
+    }
+
+    //Verificar edad
+    if (!this.validacionesService.validarEdadMinima(17, this.usuario.controls.fecha_nac.value)) {
+      alert('Edad mínima 17 años.');
+      return
+    }
+
+    //verificar registro
+    var resp = await this.usuarioService.addUsuario(this.KEY_USUARIOS, this.usuarios);
     if (resp) {
-      alert('REGISTRADO');
-      await this.cargarDatos();
+      alert('Registrado')
+      this.cargarDatos();
     }
+    alert('Usuario registrado!');
+    this.usuario.reset();
+    this.verificar_password = '';
   }
 
-  /* if (this.usuario.controls.password.value != this.verificar_password) {
-    alert('CONTRASEÑAS NO COINCIDEN!');
-    return;
-  }
-
-  var registrado: boolean = this.usuarioService.addUsuario(this.usuario.value);
-  if (!registrado) {
-    alert('USUARIO YA EXISTE!');
-    return;
-  }
-
-  alert('ALUMNO REGISTRADO!');
-  this.usuario.reset();
-  this.verificar_password = '';
-} */
-
-  eliminar(rutEliminar) {
-    await this.storage.eliminar(this.KEY_PERSONAS, identificador);
-    await this.cargandoPantalla('eliminando...');
+  async eliminar(rut) {
+    await this.usuarioService.deleteUsuario(this.KEY_USUARIOS, rut);
+    await this.cargandoPantalla('Eliminando,espere unos segundos')
     await this.cargarDatos();
-    /* this.usuarioService.deleteUsuario(rutEliminar);
-    alert('USUARIO ELIMINADO!') 
-  }*/
-
-    buscar(rutBuscar) {
-      var alumnoEncontrado = this.usuarioService.getUsuario(rutBuscar);
-      this.usuario.setValue(alumnoEncontrado);
-      this.verificar_password = alumnoEncontrado.password;
-    }
-
-    modificar() {
-      //console.log(this.alumno.value);
-      this.usuarioService.updateUsuario(this.usuario.value);
-      this.limpiar();
-    }
-
-    limpiar() {
-      this.usuario.reset();
-      this.verificar_password = '';
-    }
-
   }
 
 
+  async buscar(rut) {
+    this.usuarios = await this.usuarioService.getUsuario(this.KEY_USUARIOS, rut);
+    /*this.usuarios.setValue(alumnoEncontrado);
+    this.verificar_password = alumnoEncontrado.password;*/
+  }
+
+  async modificar() {
+    await this.usuarioService.updateUsuario(this.KEY_USUARIOS, this.usuarios);
+    //this.limpiar();
+    this.cargarDatos();
+  }
+
+  /* limpiar(){
+    this.usuarios.reset();
+    this.verificar_password = '';
+  } */
+
+  //cargando pantalla
+  async cargandoPantalla(message) {
+    const cargando = await this.loadingController.create({
+      message,
+      duration: 3000,
+      spinner: 'lines-small'
+    });
+
+    cargando.present();
+  }
+
+}

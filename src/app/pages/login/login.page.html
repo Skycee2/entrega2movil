@@ -1,16 +1,15 @@
 <ion-content>
   <div class="fondo">
     <form [formGroup]="usuario" (ngSubmit)="ingresar()">
-       <!--  <img src="../../../assets/imagen/2560px-Logo_DuocUC.svg.png" alt="" width="300px">
+      <ion-card>
+        <img src="../../../assets/imagen/2560px-Logo_DuocUC.svg.png" alt="" width="300px">
+        <img class="imagen_login" src="../../../assets/imagen/img-login.png " alt="imagen_login" width="100px" />
 
-        <img class="imagen_login" src="../../../assets/imagen/img-login.png " alt="imagen_login" width="100px" /> -->
+        <ion-card-header>
+          <ion-card-subtitle>Ingresar</ion-card-subtitle>
+          <ion-card-title>Asistencia DUOC</ion-card-title>
+        </ion-card-header>
 
-        <!-- <div>
-          <ion-title class="ion-text-center">
-            <h1 class="titulo-login"> Iniciar sesión</h1>
-          </ion-title>
-        </div>
- -->
         <ion-item>
           <ion-label color="dark" class="text-login" position="stacked">Correo:</ion-label>
           <ion-input formControlName="correo" placeholder="Ingrese correo" type="text"></ion-input>
@@ -18,16 +17,18 @@
 
         <ion-item>
           <ion-label color="dark" class="text-login" position="stacked">Contraseña:</ion-label>
-          <ion-input  formControlName="password" placeholder="Ingrese contraseña" type="password"></ion-input>
+          <ion-input formControlName="password" placeholder="Ingrese contraseña" type="password"></ion-input>
         </ion-item>
 
-        <ion-button type="submit" class="boton" expand="full" >Ingresar</ion-button>
+        <ion-button type="submit" expand="full" size="small" shape="round" [disabled]="!usuario.valid">Ingresar
+        </ion-button>
         <ion-button class="boton" id="open-modal" routerLink="/registrar" color="warning">REGISTRAR</ion-button>
 
         <ion-button class="boton" size="small" routerLink="/recuperar-pass">
           ¿Olvidaste tu contraseña?
         </ion-button>
-        
+
+      </ion-card>
     </form>
   </div>
 </ion-content>

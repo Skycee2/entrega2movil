@@ -19,48 +19,47 @@ export class RegistrarPage implements OnInit {
     nom_completo: new FormControl('', [Validators.required, Validators.minLength(3)]),
     correo : new FormControl('',[Validators.required,Validators.pattern('[A-Za-z]{1,4}.[A-Za-z]{1,20}@duocuc.cl|[A-Za-z]{1,4}.[A-Za-z]{1,20}@duoc.cl|[A-Za-z]{1,4}.[A-Za-z]{1,20}@profesor.duoc.cl')]),
     fecha_nac: new FormControl('', Validators.required),
-    semestre: new FormControl('', [Validators.required, Validators.min(1)]),
-    password: new FormControl('', [Validators.required, Validators.minLength(6)]),
-    tipo_usuario: new FormControl('usuario')
+    semestre: new FormControl('', [Validators.required, Validators.min(1), Validators.max(8)]),
+    password: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(18)]),
+    tipo_usuario: new FormControl('alumno')
+    /* nro_cel: new FormControl('', [Validators.required, Validators.pattern('[0-9]{0,8}')]) */
   });
 
+  //Variable para verificar pass
+  verificar_password: string;
 
-  repetir_pass: string;
+  //Variables para trabajar el storage
+  usuarios: any[] = [];
+  KEY_USUARIOS = 'usuarios';
 
-  constructor(private usuarioService: UsuarioService, private router: Router,private validaciones: ValidacionesService ) { }
+  constructor(private usuarioService: UsuarioService, private router: Router, private validacionesService: ValidacionesService) { }
 
   ngOnInit() {
-    //this.usuarios = this.usuarioService.obtenerUsuarios();
   }
 
   //método que desencadena el formulario con el boton submit:
-  
-
-  registrar() {
-    //validación de salida para buscar un rut válido.
-    if (!this.validaciones.validarRut(this.usuario.controls.rut.value)) {
-      alert('Rut incorrecto!');
-      return;
-    }
-    //validación de salida para verificar que persona tenga al menos 17 años.
-    if (!this.validaciones.validarEdadMinima(17, this.usuario.controls.fecha_nac.value)) {
-      alert('Edad mínima 17 años!');
-      return;
-    }
-    //validación de coincidencia de contraseñas.
-    if (this.usuario.controls.password.value != this.repetir_pass) {
-      alert('Contraseñas no coinciden!');
+  async registrar(){
+    //Verificar password
+    if (this.usuario.controls.password.value != this.verificar_password) {
+      alert('CONTRASEÑAS NO COINCIDEN!');
       return;
     }
 
-    if (this.usuarioService.addUsuario(this.usuario.value)) {
-      alert('Usuario registrado!');
-      this.usuario.reset();
-      this.repetir_pass = '';
-      this.router.navigate(['/login']);
-    } else {
-      alert('Usuario ya existe!');
+    //Verificar rut
+    if(!this.validacionesService.validarRut(this.usuario.controls.rut.value)){
+      alert('Rut inválido.');
+      return;
     }
+
+    //Verificar edad
+    if(!this.validacionesService.calcEdadReturn(17, this.usuario.controls.fecha_nac.value)){
+      alert('Edad mínima 17 años.');
+      return;
+    }
+
+    await this.usuarioService.addUsuario(this.KEY_USUARIOS, this.usuario.value);
+    alert('Usuario registrado.');
+    this.router.navigate(['/login']);
   }
 
 }

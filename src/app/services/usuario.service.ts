@@ -15,7 +15,7 @@ export class UsuarioService {
       nom_completo: 'sebastian',
       correo: 'administrador@duoc.cl',
       fecha_nac: '1990-03-24',
-      semestre: '',
+      semestre: 'No posee',
       password: 'admin123',
       tipo_usuario: 'administrador'
     },
@@ -24,22 +24,21 @@ export class UsuarioService {
       nom_completo: 'Satan',
       correo: 'seb.montero@duocuc.cl',
       fecha_nac: '1990-03-24',
-      semestre: 1,
+      semestre: '1',
       password: 'alumno1',
       tipo_usuario: 'alumno'
     },
     {
       rut: '10.000.000-0',
       nom_completo: 'Satan',
-      correo: 'ba.bascuñan@profesor.duoc.cl',
+      correo: 'profesor@profesor.duoc.cl',
       fecha_nac: '1990-03-24',
-      semestre: '',
+      semestre: 'No posee',
       password: 'docente1',
       tipo_usuario: 'docente'
     }
   ];
 
-  usuario: any;
 
   isAuthenticated = new BehaviorSubject(false);
 
@@ -48,11 +47,12 @@ export class UsuarioService {
   }
 
   //métodos:
-  async addUsuario(key,usuario) {
+  async addUsuario(usuario, key){
     this.usuarios = await this.storage.get(key) || [];
-    var datoFind = await this.getUsuario(key,usuario.rut);
+
+    var datoFind = await this.getUsuario(key, usuario.rut);
     if(datoFind == undefined){
-      this.usuario.push(usuario);
+      this.usuarios.push(usuario);
       await this.storage.set(key, this.usuarios);
       return true;
     }
@@ -73,25 +73,25 @@ export class UsuarioService {
 
   async updateUsuario(key, usuario) {
     this.usuarios = await this.storage.get(key) || [];
-    var index = this.usuarios.findIndex(value => value.id == usuario.id);
+    var index = this.usuarios.findIndex(value => value.rut == usuario.rut);
     this.usuarios[index] = usuario;
-    await this.storage.set(key, this.usuario);
+    await this.storage.set(key, this.usuarios);
   }
 
-  async deleteUsuario(key, rut) {
+  async deleteUsuario(rut, key){
     this.usuarios = await this.storage.get(key) || [];
 
     this.usuarios.forEach((value, index) => {
-      if (value.rut == rut) {
+      if(value.rut == rut){
         this.usuarios.splice(index, 1);
-      }
+      }  
     });
 
     await this.storage.set(key, this.usuarios);
   }
 
-
   
+
   //métodos customer:
   loginUsuario(correo, password) {
     var usuarioLogin = this.usuarios.find(usu => usu.correo == correo && usu.password == password);
@@ -109,8 +109,13 @@ export class UsuarioService {
     this.router.navigate(['/login']);
   }
 
-  correoValidar(correo) {
-    return this.usuarios.find(usu => usu.correo == correo);
+
+  validarRutPassword(rut, pass){
+    return this.usuarios.find(u => u.rut == rut && u.password == pass);
+  }
+
+  validarCorreorpw(correo){
+    return this.usuarios.find(u => u.correo == correo)
   }
 
 

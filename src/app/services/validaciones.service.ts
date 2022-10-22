@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { DatePipe } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -46,6 +47,17 @@ export class ValidacionesService {
     if (edadAlumno >= edad_minima) {
       return true;
     } else {
+      return false;
+    }
+  }
+
+  calcEdadReturn(edadMin, fec_nac){
+    var fn = new Date(fec_nac);
+    var difFechas = Math.abs(Date.now() - fn.getTime());
+    var edadEstudiante = Math.floor((difFechas / (1000*3600*24))/365.25);
+    if(edadEstudiante >= edadMin){
+      return true;
+    }else{
       return false;
     }
   }
