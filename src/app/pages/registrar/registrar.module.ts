@@ -1,11 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
 import { IonicModule } from '@ionic/angular';
-
 import { RegistrarPageRoutingModule } from './registrar-routing.module';
-
 import { RegistrarPage } from './registrar.page';
 
 
@@ -17,8 +14,7 @@ import { RegistrarPage } from './registrar.page';
     FormsModule,
     IonicModule,
     RegistrarPageRoutingModule,
-    ReactiveFormsModule,
-
+    ReactiveFormsModule
   ],
   declarations: [RegistrarPage]
 })

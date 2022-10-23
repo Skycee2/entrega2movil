@@ -1,9 +1,9 @@
 <ion-content>
   <div class="fondo">
-    <form [formGroup]="usuario" (ngSubmit)="ingresar()">
+    <form [formGroup]="usuario" (ngSubmit)="login()">
       <ion-card>
-        <img src="../../../assets/imagen/2560px-Logo_DuocUC.svg.png" alt="" width="300px">
-        <img class="imagen_login" src="../../../assets/imagen/img-login.png " alt="imagen_login" width="100px" />
+        <img src="../../../assets/imagen/2560px-Logo_DuocUC.svg.png"  width="300px">
+        <img class="imagen_login" src="../../../assets/imagen/img-login.png " alt="imagen_login" width="100px"/>
 
         <ion-card-header>
           <ion-card-subtitle>Ingresar</ion-card-subtitle>
@@ -27,7 +27,6 @@
         <ion-button class="boton" size="small" routerLink="/recuperar-pass">
           ¿Olvidaste tu contraseña?
         </ion-button>
-
       </ion-card>
     </form>
   </div>

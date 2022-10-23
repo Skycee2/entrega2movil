@@ -3,42 +3,14 @@ import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { Storage } from '@ionic/storage-angular';
 
-
 @Injectable({
   providedIn: 'root'
 })
+
 export class UsuarioService {
   //CREAMOS LAS VARIABLES NECESARIAS DE TRABAJO:
   usuarios: any[] = [
-    {
-      rut: '11.111.111-1',
-      nom_completo: 'sebastian',
-      correo: 'administrador@duoc.cl',
-      fecha_nac: '1990-03-24',
-      semestre: 'No posee',
-      password: 'admin123',
-      tipo_usuario: 'administrador'
-    },
-    {
-      rut: '22.222.222-2',
-      nom_completo: 'Satan',
-      correo: 'seb.montero@duocuc.cl',
-      fecha_nac: '1990-03-24',
-      semestre: '1',
-      password: 'alumno1',
-      tipo_usuario: 'alumno'
-    },
-    {
-      rut: '10.000.000-0',
-      nom_completo: 'Satan',
-      correo: 'profesor@profesor.duoc.cl',
-      fecha_nac: '1990-03-24',
-      semestre: 'No posee',
-      password: 'docente1',
-      tipo_usuario: 'docente'
-    }
   ];
-
 
   isAuthenticated = new BehaviorSubject(false);
 
@@ -47,7 +19,7 @@ export class UsuarioService {
   }
 
   //métodos:
-  async addUsuario(usuario, key){
+  async addUsuario(key,usuario){
     this.usuarios = await this.storage.get(key) || [];
 
     var datoFind = await this.getUsuario(key, usuario.rut);
@@ -63,8 +35,6 @@ export class UsuarioService {
     this.usuarios = await this.storage.get(key) || [];
     return this.usuarios.find(usuario => usuario.rut == rut);
   }
-
-
 
   async getUsuarios(key) {
     this.usuarios = await this.storage.get(key) || [];
@@ -90,11 +60,24 @@ export class UsuarioService {
     await this.storage.set(key, this.usuarios);
   }
 
+
+  validarRutPassword(rut, pass){
+    return this.usuarios.find(u => u.rut == rut && u.password == pass);
+  }
+
+  validarCorreorpw(correo){
+    return this.usuarios.find(u => u.correo == correo);
+  }
+
   
 
   //métodos customer:
-  loginUsuario(correo, password) {
-    var usuarioLogin = this.usuarios.find(usu => usu.correo == correo && usu.password == password);
+  async loginUsuario(key,correo, password) {
+    this.usuarios = await this.storage.get(key) || [];
+
+    var usuarioLogin : any;
+    /* var */ usuarioLogin = this.usuarios.find(usu => usu.correo == correo && usu.password == password);
+
     if (usuarioLogin != undefined) {
       this.isAuthenticated.next(true);
       return usuarioLogin;
@@ -109,14 +92,6 @@ export class UsuarioService {
     this.router.navigate(['/login']);
   }
 
-
-  validarRutPassword(rut, pass){
-    return this.usuarios.find(u => u.rut == rut && u.password == pass);
-  }
-
-  validarCorreorpw(correo){
-    return this.usuarios.find(u => u.correo == correo)
-  }
 
 
 

@@ -19,12 +19,13 @@ const routes: Routes = [
   {
     path: 'home',
     loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule),
-    canActivate: [AuthGuard]
+    /* canActivate: [AuthGuard] */
   },
   {
     path: 'recuperar-pass',
     loadChildren: () => import('./pages/recuperar-pass/recuperar-pass.module').then( m => m.RecuperarPassPageModule)
   },
+  
   {
     path: '**',
     loadChildren: () => import('./pages/error404/error404.module').then( m => m.Error404PageModule)

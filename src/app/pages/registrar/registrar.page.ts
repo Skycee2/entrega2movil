@@ -44,7 +44,6 @@ export class RegistrarPage implements OnInit {
       alert('CONTRASEÑAS NO COINCIDEN!');
       return;
     }
-
     //Verificar rut
     if(!this.validacionesService.validarRut(this.usuario.controls.rut.value)){
       alert('Rut inválido.');

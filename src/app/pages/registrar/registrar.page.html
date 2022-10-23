@@ -1,21 +1,10 @@
-<ion-header>
-  <ion-toolbar >
-    <ion-title class="titulo-admin ion-text-center">REGISTRAR</ion-title>
-    <ion-button color="warning" slot="end" routerLink="/login">
-      <ion-icon name="home-outline"></ion-icon>
-    </ion-button>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
-  <div class="fondo">
+  <form [formGroup]="usuario" (ngSubmit)="registrar()">
+    <div class="fondo">
+      <ion-card>
+        <img src="../../../assets/imagen/2560px-Logo_DuocUC.svg.png" alt="" width="200px">
+        <img src="../../../assets/imagen/registrar-icon.png" alt="" width="100px">
 
-    <ion-card>
-      <img src="../../../assets/imagen/2560px-Logo_DuocUC.svg.png" alt="" width="200px">
-
-      <img src="../../../assets/imagen/registrar-icon.png" alt="" width="100px">
-
-      <form [formGroup]="usuario" (ngSubmit)="registrar()">
         <ion-item>
           <ion-label color="dark" position="absolute">Rut:</ion-label>
           <ion-input type="text" placeholder="Ingrese rut" formControlName="rut"></ion-input>
@@ -23,12 +12,12 @@
 
         <ion-item>
           <ion-label color="dark" position="absolute">Nombre completo:</ion-label>
-          <ion-input  type="text" placeholder="Ingrese nombre completo" formControlName="nom_completo"></ion-input>
+          <ion-input type="text" placeholder="Ingrese nombre completo" formControlName="nom_completo"></ion-input>
         </ion-item>
 
         <ion-item>
           <ion-label color="dark" position="absolute">Correo institucional:</ion-label>
-          <ion-input  type="text" placeholder="Ingrese correo" formControlName="correo"></ion-input>
+          <ion-input type="text" placeholder="Ingrese correo" formControlName="correo"></ion-input>
         </ion-item>
 
         <ion-item>
@@ -43,19 +32,17 @@
 
         <ion-item>
           <ion-label color="dark" position="absolute">Contraseña:</ion-label>
-          <ion-input  type="password" placeholder="contrasena123" formControlName="password"></ion-input>
+          <ion-input type="password" placeholder="contrasena123" formControlName="password"></ion-input>
         </ion-item>
 
         <ion-item>
           <ion-label position="stacked">Repita Contraseña</ion-label>
-          <ion-input type="password" placeholder="Ingrese nuevamente contraseña" [(ngModel)]="verificar_password" [ngModelOptions]="{standalone: 'true'}"></ion-input>
+          <ion-input type="password" placeholder="Ingrese nuevamente contraseña" [(ngModel)]="verificar_password"
+            [ngModelOptions]="{standalone: 'true'}"></ion-input>
         </ion-item>
-        <ion-button class="boton" color="warning" type="submit" [disabled]="!alumno.valid">
+        <ion-button class="boton" color="warning" type="submit" >
           REGISTRAR</ion-button>
-      </form>
-
-
-
-    </ion-card>
-  </div>
+      </ion-card>
+    </div>
+  </form>
 </ion-content>

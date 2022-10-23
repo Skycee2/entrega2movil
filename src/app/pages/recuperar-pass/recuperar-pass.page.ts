@@ -17,8 +17,6 @@ export class RecuperarPassPage implements OnInit {
   //Variables para trabajar el storage
   KEY_USUARIOS = 'usuarios';
 
-
-
   constructor(private toastController: ToastController, private router:Router,private usuarioService: UsuarioService) { }
 
   async ngOnInit() {
