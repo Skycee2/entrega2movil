@@ -13,8 +13,10 @@
       <img src="../../../assets/imagen/2560px-Logo_DuocUC.svg.png" alt="" width="500px">
       <img src="../../../assets/imagen/profesor.png" alt="" width="200">
 
-      <ion-button color="warning"  size="xl" class="boton">
-        GENERAR CODIGO QR
+      <ngx-qrcode [elementType]="elementType" [value]="value"></ngx-qrcode>
+      <ion-input placeholder="ingrese texto" color="color" [(ngModel)]="value" disabled="true"></ion-input>
+      <ion-button color="primary"  size="small" class="boton" (click)="generarQR()">
+        Generar código QR
       </ion-button>
 
     </ion-card>

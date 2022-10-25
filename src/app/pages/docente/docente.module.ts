@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { DocentePageRoutingModule } from './docente-routing.module';
 
 import { DocentePage } from './docente.page';
+import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
 
 
 @NgModule({
@@ -15,6 +16,7 @@ import { DocentePage } from './docente.page';
     FormsModule,
     IonicModule,
     DocentePageRoutingModule,
+    NgxQRCodeModule
 
   ],
   declarations: [DocentePage]

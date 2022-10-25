@@ -1,3 +1,4 @@
+
 .boton{
     --border-radius: 100px;
 }
@@ -22,7 +23,7 @@ ion-title{
 
 ion-card {
     --background: linear-gradient(#8BB8E8,  #ffffff);
-    margin: 0 auto;
+    margin:  auto;
     //top: 5vh;
     height: 90vh;
     width: 70vw;
@@ -30,6 +31,7 @@ ion-card {
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
+
 
 
     ion-card-header {

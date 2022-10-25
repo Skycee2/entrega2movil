@@ -48,7 +48,7 @@ export class UsuarioService {
     await this.storage.set(key, this.usuarios);
   }
 
-  async deleteUsuario(rut, key){
+  async deleteUsuario( key,rut){
     this.usuarios = await this.storage.get(key) || [];
 
     this.usuarios.forEach((value, index) => {

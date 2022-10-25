@@ -43,7 +43,7 @@ export class LoginPage implements OnInit {
 
     this.t_docente = {
       rut: '10.000.000-0',
-      nom_completo: 'Satan',
+      nom_completo: 'docente',
       correo: 'profesor@profesor.duoc.cl',
       fecha_nac: '1990-03-24',
       semestre: 'No posee',
@@ -60,6 +60,9 @@ export class LoginPage implements OnInit {
       password: 'admin123',
       tipo_usuario: 'administrador'   
     }
+    await this.usuarioService.addUsuario(this.KEY_USUARIOS,this.t_admin);
+    await this.usuarioService.addUsuario(this.KEY_USUARIOS,this.t_docente);
+    await this.usuarioService.addUsuario(this.KEY_USUARIOS,this.t_alumno);
   }
 
   //Métodos para poder usar storage
@@ -73,6 +76,7 @@ export class LoginPage implements OnInit {
     //Obtener valores en variables por separado
     var validarCorreo = this.usuario.controls.correo.value;
     var validarPass = this.usuario.controls.password.value;
+    var usuarioLogin : any;
 
     //Con el método loginUsuario del usuario.service, rescatamos al usuario
     var usuarioLogin = await this.usuarioService.loginUsuario( this.KEY_USUARIOS, validarCorreo, validarPass);
