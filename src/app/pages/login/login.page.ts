@@ -48,7 +48,7 @@ export class LoginPage implements OnInit {
       fecha_nac: '1990-03-24',
       semestre: 'No posee',
       password: 'docente1',
-      tipo_usuario: 'docente123'      
+      tipo_usuario: 'docente'      
     };
 
     this.t_admin = {
@@ -110,7 +110,7 @@ export class LoginPage implements OnInit {
 
   //Función para botón
   btnInicio = function(){
-    this.router.navigate(['/inicio']);
+    this.router.navigate(['/login']);
   }
 
 

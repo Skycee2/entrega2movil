@@ -1,11 +1,4 @@
-<ion-header>
-  <ion-toolbar >
-    <ion-title class="titulo-admin ion-text-center">Docente</ion-title>
-    <ion-button color="warning" slot="end" routerLink="/login">
-      <ion-icon name="home-outline"></ion-icon>
-    </ion-button>
-  </ion-toolbar>
-</ion-header>
+
 
 <ion-content>
   <div  class="fondo-alumno">
@@ -14,11 +7,12 @@
       <img src="../../../assets/imagen/profesor.png" alt="" width="200">
 
       <ngx-qrcode [elementType]="elementType" [value]="value"></ngx-qrcode>
-      <ion-input placeholder="ingrese texto" color="color" [(ngModel)]="value" disabled="true"></ion-input>
-      <ion-button color="primary"  size="small" class="boton" (click)="generarQR()">
+      <ion-input  placeholder="" color="black" [(ngModel)]="value" disabled="true"></ion-input>
+      <ion-button class="" color="primary"  class="boton" (click)="generarQR()">
         Generar código QR
       </ion-button>
 
     </ion-card>
   </div>
 </ion-content>
+
